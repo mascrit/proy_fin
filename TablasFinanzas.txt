@@ -1,0 +1,66 @@
+CREATE TABLE domicilioFinanzas(
+domicilioId CHAR(4) PRIMARY KEY,
+calleDomicilio VARCHAR2(15) NOT NULL,
+coloniaDomicilio VARCHAR2(15) NOT NULL,
+alcaldiaDomicilio VARCHAR2(15) NOT NULL,
+codigoPostal NUMBER(5,0) NOT NULL
+);
+
+CREATE TABLE proveedorFinanzas(
+proveedorId CHAR(4) PRIMARY KEY,
+apPatProv VARCHAR2(20) NOT NULL,
+apMatProv VARCHAR2(20) NOT NULL,
+claveProv VARCHAR2(20) NOT NULL,
+descripcionProv VARCHAR2(200) NOT NULL,
+nombreProv VARCHAR2(20) NOT NULL,
+domicilioId CHAR(4) NOT NULL,
+CONSTRAINTS fkProvDom FOREIGN KEY(domicilioId)
+REFERENCES domicilioFinanzas
+);
+
+CREATE TABLE comprobanteFinanzas(
+comprobanteId CHAR(4) PRIMARY KEY,
+tipoComprobante VARCHAR(10) NOT NULL,
+fechaGeneracion DATE NOT NULL,
+proveedorId CHAR(4) NOT NULL,
+CONSTRAINTS fkComprobanteProveedor FOREIGN KEY(proveedorId)
+REFERENCES proveedorFinanzas
+);
+
+CREATE TABLE mercanciaFinanzas(
+mercanciaId CHAR(4) PRIMARY KEY,
+stock NUMERIC(5,0) NOT NULL,
+precio NUMERIC(7,2) NOT NULL,
+nombreMerc VARCHAR2(50) NOT NULL,
+descMerc VARCHAR2(200) NOT NULL,
+proveedorId CHAR(4) NOT NULL,
+CONSTRAINTS fkMercanciaProveedor FOREIGN KEY(proveedorId)
+REFERENCES proveedorFinanzas
+);
+
+CREATE TABLE ejemplarFinanzas(
+mercanciaId CHAR(4) PRIMARY KEY,
+numEjemplar NUMERIC(5) NOT NULL,
+CONSTRAINTS fkEjemplarMercancia FOREIGN KEY(mercanciaId)
+REFERENCES mercanciaFinanzas
+);
+
+CREATE TABLE sucursalFinanzas(
+sucursalId CHAR(4) PRIMARY KEY,
+claveSuc VARCHAR2(10) NOT NULL,
+nombreSuc VARCHAR2(30)  NOT NULL,
+numSucursal NUMERIC(5,0) NOT NULL,
+domicilioId CHAR(4) NOT NULL,
+CONSTRAINTS fkSucursalDomicilio FOREIGN KEY(domicilioId)
+REFERENCES domicilioFinanzas
+);
+
+CREATE TABLE mercanciaSucursal(
+mercanciaId CHAR(4) NOT NULL,
+sucursalId CHAR(4) NOT NULL,
+CONSTRAINTS fkMercancia FOREIGN KEY(mercanciaId)
+REFERENCES mercanciaFinanzas,
+CONSTRAINTS fkSucursal FOREIGN KEY(sucursalId)
+REFERENCES sucursalFinanzas,
+CONSTRAINTS pkSucursalMercancia PRIMARY KEY(mercanciaId,sucursalId)
+);

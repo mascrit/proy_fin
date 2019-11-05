@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            <table id="table-prov" class="table table-striped table-bordered " style="width:100%">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>apellido paterno</th>
+                        <th>apellido materno</th>
+                        <th>nombre</th>
+                        <th>calle</th>
+                        <th>colonia</th>
+                        <th>alcaldia</th>
+                        <th>CP</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>id</th>
+                        <th>apellido paterno</th>
+                        <th>apellido materno</th>
+                        <th>nombre</th>
+                        <th>calle</th>
+                        <th>colonia</th>
+                        <th>alcaldia</th>
+                        <th>CP</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <form action="core/controller/set_proveedor.php" id="form_prov" method="POST">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" name="nombre_p">
+                </div>
+                <div class="form-group">
+                    <label for="appat">Apellido Paterno:</label>
+                    <input type="text" class="form-control" name="appat_p">
+                </div>
+                <div class="form-group">
+                    <label for="apmat">Apellido Materno:</label>
+                    <input type="text" class="form-control" name="apmat_p">
+                </div>
+                <div class="form-group">
+                    <label for="clv">Clave:</label>
+                    <input type="text" class="form-control" name="clv_p">
+                </div>
+                <div class="form-group">
+                    <label for="calle">Calle:</label>:</label>
+                    <input type="text" class="form-control" name="calle_p">
+                </div>
+                <div class="form-group">
+                    <label for="colonia">Colonia:</label>
+                    <input type="text" class="form-control" name="col_p">
+                </div>
+                <div class="form-group">
+                    <label for="alcaldia">Alcaldia:</label>
+                    <input type="text" class="form-control" name="alcaldia_p">
+                </div>
+                <div class="form-group">
+                    <label for="cp">Código Postal:</label>
+                    <input type="text" class="form-control" name="cp_p">
+                </div>
+                <div class="form-group">
+                    <label for="desc">Descripción:</label>
+                    <textarea class="form-control" name="desc_p" rows="3"></textarea>
+                </div>
+                <button class='btn-registro-proveedor btn btn-success btn-block'>Ingresar Proveedor</button>
+            </form>
+        </div>
+
+    </div>
+</div>

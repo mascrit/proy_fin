@@ -1,0 +1,62 @@
+<?php
+
+class Provedores{
+    private $db;
+    function __construct(){
+        $this->db = new Conexion();
+    }
+
+    function get provedores(){
+    }
+    
+    function get_proceso_all(){
+        $query = "SELECT p.proceso_id,p.titulo,p.descripcion,p.org_equipo_id,p.porcentaje_total,array_agg(t.tarea_id) as tarea, oe.nombre as equipo from proceso as p left join tarea as t on t.proceso_id = p.proceso_id join org_equipo as oe on oe.org_equipo_id = oe.org_equipo_id group by p.proceso_id, oe.nombre";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function get_proceso($proceso_id){
+        $query = "SELECT p.proceso_id,p.titulo,p.org_equipo_id,p.descripcion,p.porcentaje_total,array_agg(t.tarea_id) as tarea from proceso as p left join tarea as t on t.proceso_id = p.proceso_id WHERE p.proceso_id=:proceso_id group by p.proceso_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':proceso_id',$proceso_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function insert_proceso($titulo,$org_equipo_id,$descripcion){
+        $query = "INSERT INTO proceso (titulo,org_equipo_id,descripcion) VALUES (:titulo,:org_equipo_id,:descripcion)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':titulo',$titulo);
+        $stmt->bindParam(':descripcion',$descripcion);
+        $stmt->bindParam(':org_equipo_id',$org_equipo_id);
+        return $stmt->execute();
+    }
+
+    function update_proceso($proceso_id,$titulo,$org_equipo_id){
+        $query = "UPDATE PROCESO SET titulo=:titulo,org_equipo_id=:org_equipo_id,descripcion=:descripcion WHERE proceso_id = :proceso_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':proceso_id',$proceso_id);
+        $stmt->bindParam(':titulo',$titulo);
+        $stmt->bindParam(':descripcion',$descripcion);
+        $stmt->bindParam(':org_equipo_id',$org_equipo_id);
+        return $stmt->execute();
+    }
+
+    function delete_proceso($proceso_id){
+        $query = "DELETE FROM proceso WHERE proceso_id = :proceso_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':proceso_id',$proceso_id);
+        $stmt->execute();
+        return $stmt->execute();
+    }
+
+    function update_progreso($nuevo_progreso,$proceso_id){
+        $query = "UPDATE proceso SET porcentaje_total=:nuevo_progreso WHERE proceso_id=:proceso_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':nuevo_progreso',$nuevo_progreso);
+        $stmt->bindParam(':proceso_id',$proceso_id);
+        return $stmt->execute();
+        }
+}
+?>
