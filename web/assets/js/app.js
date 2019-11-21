@@ -55,7 +55,7 @@ $(document).ready(function () {
     }
 
     function get_sucursal(){
-	return ajax_request("core/controller/get_proveedores.php", "GET", {});
+	return ajax_request("core/controller/get_sucursal.php", "GET", {});
     }
 
     function get_mercancia(){
@@ -566,10 +566,18 @@ $(document).ready(function () {
     //     alert("Sesion cerrada");
     //     location.href = "index.php";
     // }
-    function eliminar_prov(){
-        $.post("core/controller/del_prov.php", {"prov_id": this.id});
+    function eliminar_merca(){
+        $.post("core/controller/del_merca.php", {"prov_id": this.id});
         load_panel_proveedor2();
     }
+
+    function update_merca_stock(id, stock)
+    {
+	$.post("core/controller/update_merca_stock.php",
+	       {"merc_id": this.id_mercancia,
+		"stock": this.stock_});
+    }
+
 
     function load_panel_mercancia() {
         set_active_class(this);
@@ -581,7 +589,7 @@ $(document).ready(function () {
             provs = get_mercancia();
             prov= [];
             provs.forEach(element => {
-                element.option = "<button class='btn-del-mercancia btn btn-success btn-block' id=" + element.id_mercancia + ">Eliminar</button>";
+                element.option = "<button class='btn-del-mercancia btn btn-success btn-block' id=" + element.id_mercancia + ">Eliminar</button><br><button class='btn-mod-mercancia btn btn-secondary btn-block' id=" + element.id_mercancia + ">Modificar</button>";
                 prov.push(element);
             });
 
@@ -624,11 +632,89 @@ $(document).ready(function () {
             }
         });
     }
+
+    function load_panel_sucursal(){
+	set_active_class(this);
+        $(".title-head").text("Inventario -Sucursal");
+        $(".titulo-h1").text("Sucursal");
+        $(".main-panel").load("core/view/sucursal.html", function () {
+            //usuario_id = sessionStorage.getItem("id");
+            //servicios_renta = get_servicios_renta_usuario(usuario_id);
+            provs = get_sucursal();
+            prov= []
+            provs.forEach(element => {
+                element.option = "<button class='btn-del-suc btn btn-success btn-block' id=" + element.sucursal_id + ">Eliminar</button>"
+                prov.push(element);
+            });
+
+            console.log(prov);
+            if (prov != []) {
+                $("#table-suc").DataTable({
+                    destroy: true,
+                    data: prov,
+                    columns: [
+                        {
+                            data: "sucursal_id"
+                        },
+                        {
+                            data: "nombre_sucursal"
+                        },
+                        {
+                            data: "clave_sucursal"
+                        },
+                        {
+                            data: "numero_sucursal"
+                        },
+                        {
+                            data: "calle"
+                        },
+                        {
+                            data: "colonia"
+                        },
+                        {
+                            data: "alcaldia"
+                        },
+                        {
+                            data: "cp"
+                        },
+                        {
+                            data: "option"
+                        }
+                    ]
+                });
+            } else {
+                $("#table-suc").DataTable({
+                    destroy: true
+                });
+            }
+        });
+    }
+    function eliminar_suc(){
+        $.post("core/controller/del_suc.php", {"sucursal_id": this.id});
+        load_panel_sucursal();
+    }
+    function reg_suc(){
+        
+        $('#form_suc').submit(function (e) { 
+            e.preventDefault();
+            var data = $(this).serialize();
+            var $form = $( this ),
+            url = $form.attr( 'action' );
+            console.log(url);
+            
+            console.log(data);
+            $.post(url, data);
+            load_panel_sucursal();
+        });
+    }
     // $("#wrapper").on("click", ".btn-index", index);
     $("#wrapper").on("click", ".btn-proveedores", load_panel_proveedor2);
     $("#wrapper").on("click", ".btn-registro-proveedor", reg_prov);
     $("#wrapper").on("click", ".btn-mercancia", load_panel_mercancia);
     $("#wrapper").on("click", ".btn-del-prov", eliminar_prov);
+    $("#wrapper").on("click", ".btn-sucursal", load_panel_sucursal);
+    $("#wrapper").on("click", ".btn-del-suc", eliminar_suc);
+    $("#wrapper").on("click", ".btn-registro-sucursal", reg_suc);
     // $(".main-panel").on("click", ".btn-iniciar-sesion", iniciar_sesion);
     // $("#wrapper").on("click", ".btn-logout", cerrar_sesion);
     // $("#wrapper").on("click", ".btn-registro-usuario", load_modal_registro_usuario);

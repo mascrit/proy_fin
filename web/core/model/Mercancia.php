@@ -41,5 +41,20 @@ class Mercancia{
         $stmt->execute();
         return $stmt->fetch();
     }
+
+    function update_stock($id,$stock)
+    {
+        $query = 'update mercanciafinanzas set stock=:stock where mercanciaid=:id';
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id',$id);
+        $stmt->bindParam(':stock', $stock);
+        return $stmt->execute();
+        
+    }
+
+    function set_mercancia($cls_s,$nom_s,$nom_s,$stock_m,$precio_m,$desc_m)
+    {
+        
+    }
 }
 ?>
