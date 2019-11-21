@@ -54,6 +54,8 @@ $(document).ready(function () {
         return ajax_request("core/controller/get_proveedores.php", "GET", {});
     }
 
+    function get_sucursal(){ return ajax_request("core/controller/get_proveedores.php", "GET", {});}
+
     // function get_servicios_renta_usuario(usuario_id) {
     //     return ajax_request("core/controller/get_servicios_renta_usuario.php", "GET", { usuario_id: usuario_id });
     // }
@@ -77,7 +79,6 @@ $(document).ready(function () {
                 for (i in prov[j]) {
                     y.push(prov[j][i])
                     //console.log(prov);
-
                 }
                 x.push(y)
             } 
@@ -120,6 +121,68 @@ $(document).ready(function () {
         });
     }
 
+    function eliminar_prov(){
+        $.post("core/controller/del_prov.php", {"prov_id": this.id});
+        load_panel_proveedor2();
+    }
+
+    function load_panel_proveedor2() {
+        set_active_class(this);
+        $(".title-head").text("Inventario - Proveedor");
+        $(".titulo-h1").text("Proveedor");
+        $(".main-panel").load("core/view/proveedores.html", function () {
+            //usuario_id = sessionStorage.getItem("id");
+            //servicios_renta = get_servicios_renta_usuario(usuario_id);
+            provs = get_proveedores();
+            prov= []
+            provs.forEach(element => {
+                element.option = "<button class='btn-del-prov btn btn-success btn-block' id=" + element.id + ">Eliminar</button>"
+                prov.push(element);
+            });
+
+            console.log(prov);
+            if (prov != []) {
+                $("#table-prov").DataTable({
+                    destroy: true,
+                    data: prov,
+                    columns: [
+                        {
+                            data: "id"
+                        },
+                        {
+                            data: "apellido_paterno"
+                        },
+                        {
+                            data: "apellido_materno"
+                        },
+                        {
+                            data: "nombre"
+                        },
+                        {
+                            data: "calle"
+                        },
+                        {
+                            data: "colonia"
+                        },
+                        {
+                            data: "alcaldia"
+                        },
+                        {
+                            data: "cp"
+                        },
+                        {
+                            data: "option"
+                        }
+                    ]
+                });
+            } else {
+                $("#table-prov").DataTable({
+                    destroy: true
+                });
+            }
+        });
+    }
+
     function reg_prov(){
         
         $('#form_prov').submit(function (e) { 
@@ -131,6 +194,7 @@ $(document).ready(function () {
             
             console.log(data);
             $.post(url, data);
+            load_panel_proveedor2();
 
             // $.ajax({
             //     type: "post",
@@ -498,8 +562,9 @@ $(document).ready(function () {
     // }
 
     // $("#wrapper").on("click", ".btn-index", index);
-    $("#wrapper").on("click", ".btn-proveedores", load_panel_proveedor);
+    $("#wrapper").on("click", ".btn-proveedores", load_panel_proveedor2);
     $("#wrapper").on("click", ".btn-registro-proveedor", reg_prov);
+    $("#wrapper").on("click", ".btn-del-prov", eliminar_prov);
     // $(".main-panel").on("click", ".btn-iniciar-sesion", iniciar_sesion);
     // $("#wrapper").on("click", ".btn-logout", cerrar_sesion);
     // $("#wrapper").on("click", ".btn-registro-usuario", load_modal_registro_usuario);
