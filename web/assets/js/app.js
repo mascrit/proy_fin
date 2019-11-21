@@ -54,7 +54,13 @@ $(document).ready(function () {
         return ajax_request("core/controller/get_proveedores.php", "GET", {});
     }
 
-    function get_sucursal(){ return ajax_request("core/controller/get_proveedores.php", "GET", {});}
+    function get_sucursal(){
+	return ajax_request("core/controller/get_proveedores.php", "GET", {});
+    }
+
+    function get_mercancia(){
+	return ajax_request("core/controller/get_mercancia.php", "GET", {});
+    }
 
     // function get_servicios_renta_usuario(usuario_id) {
     //     return ajax_request("core/controller/get_servicios_renta_usuario.php", "GET", { usuario_id: usuario_id });
@@ -560,10 +566,68 @@ $(document).ready(function () {
     //     alert("Sesion cerrada");
     //     location.href = "index.php";
     // }
+    function eliminar_prov(){
+        $.post("core/controller/del_prov.php", {"prov_id": this.id});
+        load_panel_proveedor2();
+    }
 
+    function load_panel_mercancia() {
+        set_active_class(this);
+        $(".title-head").text("Inventario - Mercancia");
+        $(".titulo-h1").text("Mercancia");
+        $(".main-panel").load("core/view/mercancia.html", function () {
+            //usuario_id = sessionStorage.getItem("id");
+            //servicios_renta = get_servicios_renta_usuario(usuario_id);
+            provs = get_mercancia();
+            prov= [];
+            provs.forEach(element => {
+                element.option = "<button class='btn-del-mercancia btn btn-success btn-block' id=" + element.id_mercancia + ">Eliminar</button>";
+                prov.push(element);
+            });
+
+            console.log(prov);
+            if (prov != []) {
+                $("#table-merca").DataTable({
+                    destroy: true,
+                    data: prov,
+                    columns: [
+                        {
+                            data: "clave_sucursal"
+                        },
+                        {
+                            data: "nombre_sucursal"
+                        },
+                        {
+                            data: "id_mercancia"
+                        },
+                        {
+                            data: "nombre_mercancia"
+                        },
+                        {
+                            data: "stock"
+                        },
+                        {
+                            data: "precio"
+                        },
+                        {
+                            data: "descripcion"
+                        },
+                        {
+                            data: "option"
+                        }
+                    ]
+                });
+            } else {
+                $("#table-merca").DataTable({
+                    destroy: true
+                });
+            }
+        });
+    }
     // $("#wrapper").on("click", ".btn-index", index);
     $("#wrapper").on("click", ".btn-proveedores", load_panel_proveedor2);
     $("#wrapper").on("click", ".btn-registro-proveedor", reg_prov);
+    $("#wrapper").on("click", ".btn-mercancia", load_panel_mercancia);
     $("#wrapper").on("click", ".btn-del-prov", eliminar_prov);
     // $(".main-panel").on("click", ".btn-iniciar-sesion", iniciar_sesion);
     // $("#wrapper").on("click", ".btn-logout", cerrar_sesion);
