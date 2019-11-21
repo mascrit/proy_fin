@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+      <table id="table-suc" class="table table-striped table-bordered " style="width:100%">
+        <thead>
+          <tr>
+            <th>Sucursal ID</th>
+            <th>Nombre Sucursal</th>
+            <th>apellido materno</th>
+            <th>nombreClave Sucursal</th>
+            <th>calle</th>
+            <th>colonia</th>
+            <th>alcaldia</th>
+            <th>CP</th>
+            <th>Eliminar</th>
+
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>Sucursal ID</th>
+            <th>Nombre Sucursal</th>
+            <th>apellido materno</th>
+            <th>nombreClave Sucursal</th>
+            <th>calle</th>
+            <th>colonia</th>
+            <th>alcaldia</th>
+            <th>CP</th>
+            <th>Eliminar</th>
+
+          </tr>
+        </tfoot>
+      </table>
+      <form action="core/controller/set_sucursal.php" id="form_suc" method="POST">
+        <div class="form-group">
+          <label for="nombre">Nombre Sucursal:</label>
+          <input type="text" class="form-control" name="nom_s">
+        </div>
+        <div class="form-group">
+          <label for="clv">Clave Sucursal:</label>
+          <input type="text" class="form-control" name="clv_s">
+        </div>
+        <div class="form-group">
+          <label for="numb">Numero Sucursal:</label>
+          <input type="text" class="form-control" name="num_s">
+        </div>
+
+	<div class="form-group">
+	  <label for="calle">Calle:</label>
+	  <input type="text" class="form-control" name="calle_p">
+	</div>
+	<div class="form-group">
+	  <label for="colonia">Colonia:</label>
+	  <input type="text" class="form-control" name="col_p">
+	</div>
+	<div class="form-group">
+	  <label for="alcaldia">Alcaldia:</label>
+	  <input type="text" class="form-control" name="alcaldia_p">
+	</div>
+	<div class="form-group">
+	  <label for="cp">Código Postal:</label>
+	  <input type="text" class="form-control" name="cp_p">
+	</div>
+	<button class='btn-registro-sucursal btn btn-success btn-block'>Ingresar Sucursal</button>
+      </form>
+    </div>
+
+  </div>
+</div>

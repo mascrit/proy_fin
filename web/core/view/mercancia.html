@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+      <table id="table-merca" class="table table-striped table-bordered " style="width:100%">
+        <thead>
+          <tr>
+            <th>Clave Sucursal</th>
+            <th>Nombre Sucursal</th>
+            <th>ID Mercancia</th>
+            <th>Nombre Mercancia</th>
+            <th>stock</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>Clave Sucursal</th>
+            <th>Nombre Sucursal</th>
+            <th>ID Mercancia</th>
+            <th>Nombre Mercancia</th>
+            <th>stock</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Eliminar</th>
+          </tr>
+        </tfoot>
+      </table>
+      <form action="core/controller/set_mercancia.php" id="form_merca" method="POST">
+        <div class="form-group">
+          <label for="clave_suc">Clave Sucursal</label>
+          <input type="text" class="form-control" name="clv_s">
+        </div>
+        <div class="form-group">
+          <label for="nom_suc">Nombre Sucursal</label>
+          <input type="text" class="form-control" name="nom_s">
+        </div>
+        <div class="form-group">
+          <label for="nom_merca">Nombre Mercancia</label>
+          <input type="text" class="form-control" name="nom_m">
+        </div>
+        <div class="form-group">
+          <label for="stock">En stock</label>
+          <input type="number" class="form-control" name="stock_m_">
+        </div>
+        <div class="form-group">
+          <label for="precio">Precio</label>
+          <input type="text" class="form-control" name="precio_m">
+        </div>
+        <div class="form-group">
+          <label for="desc">Descripción:</label>
+          <textarea class="form-control" name="desc_m" rows="3"></textarea>
+        </div>
+        <button class='btn-registro-mercancia btn btn-success btn-block'>Ingresar Mercancia</button>
+      </form>
+    </div>
+
+  </div>
+</div>
